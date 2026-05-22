@@ -1,16 +1,26 @@
-// Модуль для отрисовки миниатюр фотографий на странице
+import { openBigPicture } from './gallery.js';
 
-/**
- * Отрисовывает миниатюры фотографий в контейнере .pictures
- * @param {Array} pictures - массив объектов фотографий
- */
 function renderPictures(pictures) {
-  // TODO: Реализовать отрисовку миниатюр
-  // 1. Получить template элемент
-  // 2. Получить контейнер для фотографий
-  // 3. Создать fragment
-  // 4. Для каждой фотографии создать элемент и добавить в fragment
-  // 5. Добавить fragment в контейнер
+  const template = document.querySelector('#picture');
+  const container = document.querySelector('.pictures');
+  const fragment = document.createDocumentFragment();
+
+  pictures.forEach((picture) => {
+    const element = template.content.cloneNode(true);
+
+    element.querySelector('.picture__img').src = picture.url;
+    element.querySelector('.picture__likes').textContent = picture.likes;
+    element.querySelector('.picture__comments').textContent = picture.comments.length;
+
+    element.querySelector('.picture').addEventListener('click', (evt) => {
+      evt.preventDefault();
+      openBigPicture(picture);
+    });
+
+    fragment.appendChild(element);
+  });
+
+  container.appendChild(fragment);
 }
 
 export { renderPictures };
