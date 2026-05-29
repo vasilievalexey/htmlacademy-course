@@ -1,28 +1,23 @@
-// Модуль для валидации хэштегов и комментариев
+const MAX_HASHTAG_COUNT = 5;
+const MAX_HASHTAG_LENGTH = 20;
+const MAX_COMMENT_LENGTH = 140;
+const HASHTAG_REGEX = /^#[a-zа-яё0-9]{1,19}$/i;
 
-/**
- * Проверяет корректность хэштегов
- * @param {string} hashtags - строка с хэштегами
- * @returns {boolean} - true, если хэштеги корректны
- */
-function validateHashtags(hashtags) {
-  // TODO: Реализовать валидацию хэштегов
-  // 1. Хэштег начинается с #
-  // 2. Длина хэштега от 2 до 20 символов (включая #)
-  // 3. Максимум 5 хэштегов
-  // 4. Хэштеги разделены пробелами
-  // 5. Хэштеги не должны повторяться (без учета регистра)
-  // 6. Хэштег состоит из букв и цифр
+function validateHashtags(value) {
+  if (!value) return true;
+
+  const tags = value.trim().split(/\s+/);
+
+  if (tags.length > MAX_HASHTAG_COUNT) return false;
+
+  const uniqueTags = new Set(tags.map((tag) => tag.toLowerCase()));
+  if (uniqueTags.size !== tags.length) return false;
+
+  return tags.every((tag) => HASHTAG_REGEX.test(tag));
 }
 
-/**
- * Проверяет длину комментария
- * @param {string} comment - текст комментария
- * @returns {boolean} - true, если комментарий не превышает 140 символов
- */
-function validateComment(comment) {
-  // TODO: Реализовать валидацию комментария
-  // Максимальная длина комментария — 140 символов
+function validateComment(value) {
+  return value.length <= MAX_COMMENT_LENGTH;
 }
 
 export { validateHashtags, validateComment };
