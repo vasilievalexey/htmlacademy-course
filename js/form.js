@@ -1,4 +1,6 @@
 import { validateHashtags, validateComment } from './validation.js';
+import { initScale, resetScale } from './scale.js';
+import { initEffects, resetEffects } from './effects.js';
 
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadOverlay = document.querySelector('.img-upload__overlay');
@@ -25,18 +27,23 @@ function closeUploadForm() {
   body.classList.remove('modal-open');
   uploadForm.reset();
   uploadInput.value = '';
+  resetScale();
+  resetEffects();
   document.removeEventListener('keydown', onDocumentKeydown);
 }
 
 function initUploadForm() {
-  uploadInput.addEventListener('change', openUploadForm);
+  uploadInput.addEventListener('change', () => {
+    openUploadForm();
+    initScale();
+    initEffects();
+  });
+
   cancelButton.addEventListener('click', closeUploadForm);
 
-  // Не закрывать по ESC когда фокус в поле ввода
   hashtagInput.addEventListener('keydown', (evt) => evt.stopPropagation());
   commentInput.addEventListener('keydown', (evt) => evt.stopPropagation());
 
-  // Валидация
   uploadForm.addEventListener('submit', (evt) => {
     if (!validateHashtags(hashtagInput.value)) {
       evt.preventDefault();
