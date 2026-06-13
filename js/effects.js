@@ -27,6 +27,10 @@ const applyEffect = (value) => {
 };
 
 const initEffects = () => {
+  if (effectLevelSlider.noUiSlider) {
+    effectLevelSlider.noUiSlider.destroy();
+  }
+
   noUiSlider.create(effectLevelSlider, {
     range: { min: 0, max: 1 },
     start: 1,
