@@ -11,6 +11,7 @@ const hashtagInput = document.querySelector('.text__hashtags');
 const commentInput = document.querySelector('.text__description');
 const body = document.querySelector('body');
 const submitButton = document.querySelector('#upload-submit');
+const previewImage = document.querySelector('.img-upload__preview img');
 
 const successTemplate = document.querySelector('#success').content;
 const errorTemplate = document.querySelector('#error').content;
@@ -59,6 +60,12 @@ function closeUploadForm() {
 
 function initUploadForm() {
   uploadInput.addEventListener('change', () => {
+    const file = uploadInput.files[0];
+
+    if (file) {
+      previewImage.src = URL.createObjectURL(file);
+    }
+
     openUploadForm();
     initScale();
     initEffects();
