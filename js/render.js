@@ -5,6 +5,8 @@ function renderPictures(pictures) {
   const container = document.querySelector('.pictures');
   const fragment = document.createDocumentFragment();
 
+  container.querySelectorAll('.picture').forEach((el) => el.remove());
+
   pictures.forEach((picture) => {
     const element = template.content.cloneNode(true);
 
